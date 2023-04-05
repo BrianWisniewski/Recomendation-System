@@ -1,0 +1,48 @@
+Welcome to the CSC110 Book Recommender. Type the word in the
+left column to do the action on the right.
+recommend : recommend books for a particular user
+averages  : output the average ratings of all books in the system
+quit      : exit the program
+next task? averages
+Watership Down 5.0
+Lord of the Rings 5.0
+Cats 5.0
+Harry Potter 1.5
+1984 0.0
+Animal Farm -1.6666666666666667
+
+next task? recommend
+user? Carlos
+Watership Down 5.0
+Lord of the Rings 5.0
+Cats 5.0
+1984 5.0
+Harry Potter 0.3333333333333333
+
+next task? recommend
+user? Kalid
+Lord of the Rings 5.0
+Cats 5.0
+Harry Potter 1.0
+
+next task? recommend
+user? Suelyn
+Watership Down 5.0
+Lord of the Rings 5.0
+Cats 5.0
+Harry Potter 1.6666666666666667
+
+next task? recommend
+user? Bob
+Watership Down 5.0
+Harry Potter 3.0
+
+next task? averages
+Watership Down 5.0
+Lord of the Rings 5.0
+Cats 5.0
+Harry Potter 1.5
+1984 0.0
+Animal Farm -1.6666666666666667
+
+next task? quit
