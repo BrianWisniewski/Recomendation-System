@@ -3,6 +3,7 @@
 
 #include <string>
 
+// name of the book and average rating for the book (double)
 class Book
 {
 private:
