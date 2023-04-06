@@ -15,7 +15,7 @@ void BooksList::displayBooks() {
     std::vector<Book*> bookVector(booksList.begin(), booksList.end());
 
     // sort the vector in alphabetical order by name
-    std::sort(booksList.begin(), booksList.end(), [](const Book* a, const Book* b) {
+    std::sort(bookVector.begin(), bookVector.end(), [](const Book* a, const Book* b) {
         return a->getName() < b->getName();
     });
 
