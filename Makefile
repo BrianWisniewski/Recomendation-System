@@ -7,8 +7,9 @@ all: $(PROGRAM)
 run: $(PROGRAM)
 	./$(PROGRAM)
 
-$(PROGRAM): main.cpp BooksList.cpp
-	$(CXX) $(OPTIONS) main.cpp BooksList.cpp -o $(PROGRAM) 
+$(PROGRAM): main.cpp BooksList.cpp BookRatingsList.cpp UsersList.cpp
+	$(CXX) $(OPTIONS) main.cpp BooksList.cpp BookRatingsList.cpp UsersList.cpp \
+	-o $(PROGRAM) 
 
 clean:
 	rm -f $(PROGRAM)

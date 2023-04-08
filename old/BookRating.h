@@ -1,11 +1,12 @@
-#ifndef BOOKRATING_H_
-#define BOOKRATING_H_
+#ifndef BOOK_RATING_H_
+#define BOOK_RATING_H_
 
 #include "Book.h"
 #include "User.h"
 #include <tuple>
 #include <string>
 
+// holds a book pointer, a user pointer and a rating of the book
 class BookRating {
 private:
     Book* book;

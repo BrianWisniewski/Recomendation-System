@@ -3,6 +3,10 @@
 
 #include "Book.h"
 #include "BooksList.h"
+#include "BookRating.h"
+#include "BookRatingsList.h"
+#include "User.h"
+#include "UsersList.h"
 
 int main() {
 

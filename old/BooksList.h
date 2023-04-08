@@ -1,5 +1,5 @@
-#ifndef BOOKSLIST_H_
-#define BOOKSLIST_H_
+#ifndef BOOKS_LIST_H_
+#define BOOKS_LIST_H_
 
 #include <set>
 #include <vector>
@@ -11,7 +11,7 @@
 class BooksList {
 private:
     // create an empty list
-    std::set <Book*> booksList = {};
+    std::set <Book*> booksList {};
 public:
     BooksList() = default;
     ~BooksList();

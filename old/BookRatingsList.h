@@ -8,7 +8,7 @@
 // contains a list of all BookRating objects
 class BookRatingsList {
 private:
-    std::vector<BookRating> bookRatingsList = {};
+    std::vector<BookRating> bookRatingsList {};
 public:
     BookRatingsList() = default;
     ~BookRatingsList();

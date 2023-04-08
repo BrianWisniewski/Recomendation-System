@@ -1,5 +1,5 @@
-#ifndef USERSLIST_H_
-#define USERSLIST_H_
+#ifndef USERS_LIST_H_
+#define USERS_LIST_H_
 
 #include <set>
 #include <vector>
