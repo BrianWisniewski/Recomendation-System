@@ -12,7 +12,7 @@ private:
     std::map<const Book*, double> ratedBooks;
 public:
     User(std::string name) : name(name) {};
-    User(std::string name, std::vector<Book*>& books);
+    User(std::string name, std::vector<Book*> &books);
     std::string getName();
     void addRatedBook(Book& book, double rating);
     double getRating(const Book& book);
