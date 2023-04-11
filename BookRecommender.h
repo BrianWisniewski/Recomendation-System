@@ -9,7 +9,8 @@ class BookRecommender {
 private:
     std::vector<Book*> books;
     std::vector<User*> users;
-    std::vector<std::pair<double, std::string>> similarity(User recommender) const;
+    std::vector<std::pair<double, std::string>> 
+        similarity(User recommender) const;
     std::string removeWhiteSpace(std::string line);
 public:
     BookRecommender();

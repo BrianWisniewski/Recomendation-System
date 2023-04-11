@@ -1,0 +1,56 @@
++--------------------------------+
+|            <<class>>           |
+|            Book                |
++--------------------------------+
+| -title: std::string            |
+| -totalRating: double           |
+| -ratingCount: double           |
++--------------------------------+
+| +Book(title: std::string)      |
+| +getTitle(): std::string       |
+| +addRating(rating: double)     |
+| +getAverageRating(): double    |
++--------------------------------+
+
++--------------------------------+
+|            <<class>>           |
+|            User                |
++--------------------------------+
+| -name: std::string             |
+| -ratedBooks: std::map<const    |
+|   Book*, double>               |
++--------------------------------+
+| +User(name: std::string)       |
+| +User(name: std::string,       |
+|  books: std::vector<Book*>&)   |
+| +getName(): std::string        |
+| +addRatedBook(book: Book&,     |
+|  rating: double)               |
+| +getRating(book: const Book&): |
+|  double                        |
++--------------------------------+
+
++------------------------------------------+
+|            <<class>>                     |
+|            BookRecommender               |
++------------------------------------------+
+| -books: std::vector<Book*>               |
+| -users: std::vector<User*>               |
++------------------------------------------+
+| +BookRecommender()                       |
+| +BookRecommender(filename:               |
+|  const std::string&)                     |
+| +addBook(title: std::string)             |
+| +addUser(name: std::string): User*       |
+| +loadData(filename: const std::string&): |
+|  bool                                    |
+| +printRecommend(userName: std::string)   |
+|  const                                   |
+| +printAverages() const                   |
+| -similarity(recommender: User) const:    |
+|  std::vector<std::pair<double,           |
+|  std::string>>                           |
+| -removeWhiteSpace(line: std::string):    |
+|  std::string                             |
++------------------------------------------+
+
