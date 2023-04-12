@@ -54,3 +54,30 @@
 |  std::string                             |
 +------------------------------------------+
 
+
++------------------------------------------+
+|            <<class>>                     |
+|         BookRecommender                  |
++------------------------------------------+
+| -books: vector<string bookTitle>         |
+| -users: vector<string userName>          |
+| -ratedBooks: map<string userName,        |
+| vector<double> ratings                   |
+| -averages: map<string bookTitle,         |
+| double average>                          |
++------------------------------------------+
+| +BookRecommender()                       |
+| +BookRecommender(string fileName)        |
+| +printRecommend(string userName)         |
+| +printAverages()                         |
+| +getAverage(string bookTitle) : double   |
+| +getSimilarity(string userName1,         |
+| string userName2) : double               |
+| +getBookCount(): int                     |
+| +getUserCount(): int                     |
+| +getUserBookRating(string userName,      |
+| string bookTitle) : double               |
+| NOTE: there may be a few more methods    |
+| added for unitTesting                    |
++------------------------------------------+
+
