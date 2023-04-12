@@ -1,15 +1,5 @@
 #include "BookRecommender.h"
 
-//
-std::vector<std::pair<double, std::string>> BookRecommender::similarity(User recommender) const {
-
-}
-
-// removes all the spaces from a string, leaving one long word
-std::string BookRecommender::removeWhiteSpace(std::string line) {
-    std::remove(line.begin(), line.end(), ' ');
-    return line;
-}
 
 //
 BookRecommender::BookRecommender() {
@@ -17,31 +7,41 @@ BookRecommender::BookRecommender() {
 }
 
 //
-BookRecommender::BookRecommender(const std::string& filename) {
+BookRecommender::BookRecommender(string filename) {
 
 }
 
 //
-void BookRecommender::addBook(std::string title) {
+void BookRecommender::printRecommend(string userName) {
 
 }
 
 //
-User* BookRecommender::addUser(std::string name) {
+void BookRecommender::printAverages() {
 
 }
 
 //
-bool BookRecommender::loadData(const std::string& filename) {
+double BookRecommender::getAverage(string bookTitle) {
 
 }
 
 //
-void BookRecommender::printRecommend(std::string userName) const {
+double BookRecommender::getSimilarity(string userName1, string userName2) {
 
 }
 
 //
-void BookRecommender::printAverages() const {
+int BookRecommender::getBookCount() {
+
+}
+
+//
+int BookRecommender::getUserCount() {
+
+}
+
+//
+double BookRecommender::getUserBookRating(string userName, string bookTitle) {
 
 }

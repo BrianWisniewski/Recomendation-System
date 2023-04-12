@@ -4,23 +4,28 @@
 #include "Book.h"
 #include "User.h"
 #include <vector>
+#include <map>
 #include <algorithm>
+
+using namespace std;
 
 class BookRecommender {
 private:
-    std::vector<Book*> books;
-    std::vector<User*> users;
-    std::vector<std::pair<double, std::string>> 
-        similarity(User recommender) const;
-    std::string removeWhiteSpace(std::string line);
+    vector<string> books; // bookTitle
+    vector<string> users; // userName
+    map<string, vector<double>> ratedBooks; // userName, ratings
+    map<string, double> averages; // bookTitle, average 
+
 public:
     BookRecommender();
-    BookRecommender(const std::string& filename);
-    void addBook(std::string title);
-    User* addUser(std::string name);
-    bool loadData(const std::string& filename);
-    void printRecommend(std::string userName) const;
-    void printAverages() const;
+    BookRecommender(string filename);
+    void printRecommend(string userName);
+    void printAverages();
+    double getAverage(string bookTitle);
+    double getSimilarity(string userName1, string userName2);
+    int getBookCount();
+    int getUserCount();
+    double getUserBookRating(string userName, string bookTitle);
 };
 
 #endif
