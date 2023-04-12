@@ -4,6 +4,7 @@
 #include "Book.h"
 #include "User.h"
 #include <vector>
+#include <algorithm>
 
 class BookRecommender {
 private:

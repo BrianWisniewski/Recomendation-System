@@ -1,7 +1,7 @@
 #include "User.h"
 
 // TODO: need clarification on this
-User::User(std::string name, std::vector<Book*>& books) {
+User::User(std::string name, std::vector<Book*> &books) {
 
 }
 

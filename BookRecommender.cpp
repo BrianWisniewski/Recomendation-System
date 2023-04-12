@@ -5,9 +5,10 @@ std::vector<std::pair<double, std::string>> BookRecommender::similarity(User rec
 
 }
 
-//
+// removes all the spaces from a string, leaving one long word
 std::string BookRecommender::removeWhiteSpace(std::string line) {
-
+    std::remove(line.begin(), line.end(), ' ');
+    return line;
 }
 
 //
@@ -42,5 +43,5 @@ void BookRecommender::printRecommend(std::string userName) const {
 
 //
 void BookRecommender::printAverages() const {
-    
+
 }
