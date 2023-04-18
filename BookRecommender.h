@@ -1,10 +1,11 @@
 #ifndef BOOK_RECOMMENDER_H
 #define BOOK_RECOMMENDER_H
 
-#include "Book.h"
-#include "User.h"
 #include <vector>
 #include <map>
+#include <set>
+#include <fstream>
+#include <iostream>
 #include <algorithm>
 
 using namespace std;
@@ -17,7 +18,7 @@ private:
     map<string, double> averages; // bookTitle, average 
 
 public:
-    BookRecommender();
+    BookRecommender() {};
     BookRecommender(string filename);
     void printRecommend(string userName);
     void printAverages();
