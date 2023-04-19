@@ -1,4 +1,4 @@
-## Reccomendation System Logic
+## Recommendation System Logic
 Brian Wisniewski (4/5/2023)
 
 ### Terminology
@@ -18,7 +18,7 @@ Brian Wisniewski (4/5/2023)
 2. Turn all books into a vector. Convert to set and back to vector to get unique vector
 3. Create dictionary with each person as a key and a vector with the rating of each book as the value
 4. Calculate averages
-5. Wait for command "reccomend", "averages", or "quit" (no prompt)
+5. Wait for command "recommend", "averages", or "quit" (no prompt)
 
 ### Averages
 1. Create list of tuples or structs holding rating and book name
@@ -27,12 +27,12 @@ Brian Wisniewski (4/5/2023)
 4. Create new list holding book names and averages in tuple or struct
 5. Sort by ratings and for ties in ratings use alphabetic order
 
-### Calculating Reccomendations
+### Calculating recommendations
 1. Read in requested-user name. If not in the dictionary, output averages instead
 2. For each user, find the dot product of that user and the requested-user to get a similarity rating
     (look out for the requested user in the list)
 3. Store pairs with the similarity rating and the name of the other user in a list
-4. Sort the list by similarity rating and take the top 3 reccomendation-users
+4. Sort the list by similarity rating and take the top 3 recommendation-users
 5. Average these three users to make a new list the same list as the list of books
 6. This new list can be turned into pairs with the book title and average rating
 7. Sort this list of pairs to get a list of books to recommend
