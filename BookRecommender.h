@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <iomanip>
 
+#define avgPair pair<double, string>
 using namespace std;
 
 class BookRecommender {

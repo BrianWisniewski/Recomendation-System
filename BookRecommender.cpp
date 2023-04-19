@@ -1,6 +1,7 @@
 #include "BookRecommender.h"
 
-bool compareAverages(pair<double, string> rating1, pair<double, string> rating2) {
+// sorts by rating first and then by alphabetical order
+bool compareAverages(avgPair rating1, avgPair rating2) {
     if (rating1.first == rating2.first)
         return rating1.second < rating2.second;
     return rating1.first > rating2.first;
@@ -31,10 +32,8 @@ BookRecommender::BookRecommender(string filename) {
         getline(dataFile, rating);
 
         // remove carriage return from imput if it exists
-        userName.erase(remove(userName.begin(), userName.end(), '\r'), 
-            userName.end());
-        bookTitle.erase(remove(bookTitle.begin(), bookTitle.end(), '\r'), 
-            bookTitle.end());
+        userName.erase(remove(userName.begin(), userName.end(), '\r'), userName.end());
+        bookTitle.erase(remove(bookTitle.begin(), bookTitle.end(), '\r'), bookTitle.end());
 
         // add userName and bookTitle to the set
         bookSet.insert(bookTitle);
@@ -60,10 +59,8 @@ BookRecommender::BookRecommender(string filename) {
         getline(dataFile, rating);
 
         // remove carriage return from imput if it exists
-        userName.erase(remove(userName.begin(), userName.end(), '\r'), 
-            userName.end());
-        bookTitle.erase(remove(bookTitle.begin(), bookTitle.end(), '\r'), 
-            bookTitle.end());
+        userName.erase(remove(userName.begin(), userName.end(), '\r'), userName.end());
+        bookTitle.erase(remove(bookTitle.begin(), bookTitle.end(), '\r'), bookTitle.end());
 
         // store ratings for user in temporary vector
         // then update vector to add new rating
@@ -81,7 +78,7 @@ BookRecommender::BookRecommender(string filename) {
 
     // calculate average for each book and add it to the averages map
     for (string book : books) {
-            int totalRating = 0; // holds the sum of ratings
+            double totalRating = 0; // holds the sum of ratings
             int numRatings = 0; // counts number of non-zero ratings
             for (string user : users) {
                 int userRating = getUserBookRating(user, book);
@@ -92,7 +89,7 @@ BookRecommender::BookRecommender(string filename) {
             }
             double average = 0;
             if (numRatings != 0)
-                average = ((double) totalRating) / numRatings;
+                average = totalRating / numRatings;
             averages.emplace(book, average);
     }
 }
@@ -100,10 +97,10 @@ BookRecommender::BookRecommender(string filename) {
 // displays the book recommendations for a given user per the 
 // specifications given
 void BookRecommender::printRecommend(string requestedUser) {
-    vector<pair<double, string>> similarityRatings;
-    pair<double, string> similarityPair;
+    vector<avgPair> similarityRatings;
+    avgPair similarityPair;
 
-    // ensure name is in the requested user is in the vector
+    // return if name of requested user isn't in the vector
     if (find(users.begin(), users.end(), requestedUser) == users.end()) {
         printAverages();
         return;
@@ -111,8 +108,7 @@ void BookRecommender::printRecommend(string requestedUser) {
 
     // populate vector of similarity ratings
     for (string reccUser : users) {
-        similarityPair = make_pair(getSimilarity(reccUser, requestedUser), 
-            reccUser);
+        similarityPair = {getSimilarity(reccUser, requestedUser), reccUser};
         similarityRatings.push_back(similarityPair);
     }
 
@@ -130,37 +126,38 @@ void BookRecommender::printRecommend(string requestedUser) {
         double totalRating = 0;
         double averageRating = 0;
         for (int i=0; i<3; i++) {
-            double userRating = getUserBookRating(similarityRatings[i].second,
-                book);
-            if (userRating != 0)
+            double userRating = getUserBookRating(similarityRatings[i].second, book);
+            if (userRating != 0) 
                 ratingCount++;
             totalRating += userRating;
         }
         if (ratingCount != 0)
             averageRating = totalRating / ratingCount;
         
-        averagePairs.push_back(make_pair(averageRating, book));
+        averagePairs.push_back( {averageRating, book} );
     }
 
     // sort the averagePairs by averageRating
     sort(averagePairs.begin(), averagePairs.end(), compareAverages);
 
     // output each book and it's average recommender rating
-    for (pair<double, string> book : averagePairs) {
-        if (book.first > 0)
-            cout << book.second << " " << fixed << setprecision(2) 
-                << book.first << endl;
+    for (avgPair book : averagePairs) {
+        if (book.first > 0) {
+            cout << book.second << " "; 
+            cout << fixed << setprecision(2) << book.first << endl; 
+        }
     }
+
 }
 
 // displays the book average ratings per the specifications
 void BookRecommender::printAverages() {
-    vector<pair<double, string>> averageVector;
-    pair<double, string> bookRating;
+    vector<avgPair> averageVector;
+    avgPair bookRating;
 
     // convert the map to a vector of book pairs
     for (string book : books) {
-        bookRating = make_pair(averages[book], book);
+        bookRating = {averages[book], book};
         averageVector.push_back(bookRating);
     }
 
@@ -168,7 +165,7 @@ void BookRecommender::printAverages() {
     sort(averageVector.begin(), averageVector.end(), compareAverages);
 
     // print the averages in proper formating
-    for (pair<double, string> bookRating : averageVector) {
+    for (avgPair bookRating : averageVector) {
         double rating = bookRating.first;
         string title = bookRating.second;
         cout << fixed << title << " " << setprecision(2) << rating << endl;
@@ -177,8 +174,7 @@ void BookRecommender::printAverages() {
 
 // returns the average rating for a specified book
 double BookRecommender::getAverage(string bookTitle) {
-    // find the average in the map
-    return averages.at(bookTitle);
+    return averages[bookTitle];
 }
 
 // returns the similarity value for recommender userName1 compared to userName2
@@ -207,7 +203,10 @@ int BookRecommender::getUserCount() {
 // gets the users rating of the bookTitle
 double BookRecommender::getUserBookRating(string userName, string bookTitle) {
     vector<double> usersRatings = ratedBooks.at(userName);
+
+    // find the index of the book in the vector
     auto iterator = find(books.begin(), books.end(), bookTitle);
     int index = distance(books.begin(), iterator);
+
     return (ratedBooks.at(userName))[index];
 }
