@@ -78,19 +78,19 @@ BookRecommender::BookRecommender(string filename) {
 
     // calculate average for each book and add it to the averages map
     for (string book : books) {
-            double totalRating = 0; // holds the sum of ratings
-            int numRatings = 0; // counts number of non-zero ratings
-            for (string user : users) {
-                int userRating = getUserBookRating(user, book);
-                if (userRating != 0) {
-                    totalRating += userRating;
-                    numRatings += 1;
-                }
+        double totalRating = 0; // holds the sum of ratings
+        int numRatings = 0; // counts number of non-zero ratings
+        for (string user : users) {
+            int userRating = getUserBookRating(user, book);
+            if (userRating != 0) {
+                totalRating += userRating;
+                numRatings += 1;
             }
-            double average = 0;
-            if (numRatings != 0)
-                average = totalRating / numRatings;
-            averages.emplace(book, average);
+        }
+        double average = 0;
+        if (numRatings != 0)
+            average = totalRating / numRatings;
+        averages.emplace(book, average);
     }
 }
 

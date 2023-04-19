@@ -5,7 +5,7 @@ PROGRAM = main.out
 all: $(PROGRAM)
 
 run: $(PROGRAM)
-	./$(PROGRAM)
+	./$(PROGRAM) $(data)
 
 $(PROGRAM): main.cpp BookRecommender.cpp
 	$(CXX) $(OPTIONS) main.cpp BookRecommender.cpp -o $(PROGRAM) 
