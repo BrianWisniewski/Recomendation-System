@@ -81,3 +81,23 @@
 | added for unitTesting                    |
 +------------------------------------------+
 
+DATA MEMBERS
+
+books - a vector that holds the name of all book titles (no duplicates)
+users - a vector that holds the name of all users (no duplicates)
+ratedBooks - a dictionary (map) that holds the books ratings for each user
+averages - a dictionary (map) that holds the user ratings average for each book title
+
+METHODS
+
+BookRecommender - creates an object and initializes all of the data members 
+    (they will not contain any data)
+BookRecommender(string fileName) - creates an object and processes the data in 
+    the specified file; initializes all data members as necessary given the data
+void printRecommend(string userName) - displays the book recommendations for a 
+    given user per the specifications given above
+void printAverages() - displays the book average ratings per the specifications 
+double getAverage(string bookTitle) - returns the average rating for a specified book
+double getSimilarity(string userName1, string userName2) - returns the similarity 
+    value for recommender userName1 compared to userName2 (in the example above, 
+    userName1 would be Kalid and userName2 would be Carlos)

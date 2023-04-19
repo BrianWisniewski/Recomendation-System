@@ -1,5 +1,10 @@
 #include "BookRecommender.h"
 
+bool compareAverages(pair<double, string> rating1, pair<double, string> rating2) {
+    if (rating1.first == rating2.first)
+        return rating1.second < rating2.second;
+    return rating1.first > rating2.first;
+}
 
 // creates an object and processes the data in the specified file
 // initializes all data members as necessary given the data
@@ -13,12 +18,24 @@ BookRecommender::BookRecommender(string filename) {
     // open the input file
     ifstream dataFile;
     dataFile.open(filename);
+
+    // exit with error if problems arise opening the file
+    if (!dataFile) {
+        cout << "Error opening file!";
+        exit(0);
+    }
     
     // for each rating, read in the attributes
     for (;getline(dataFile, userName);) {
         getline(dataFile, bookTitle);
         getline(dataFile, rating);
-        
+
+        // remove carriage return from imput if it exists
+        userName.erase(remove(userName.begin(), userName.end(), '\r'), 
+            userName.end());
+        bookTitle.erase(remove(bookTitle.begin(), bookTitle.end(), '\r'), 
+            bookTitle.end());
+
         // add userName and bookTitle to the set
         bookSet.insert(bookTitle);
         userSet.insert(userName);
@@ -30,9 +47,8 @@ BookRecommender::BookRecommender(string filename) {
 
     // create the ratedBooks map and set vector size for each user
     vector<double> zeroVector(getBookCount(), 0);
-    for (string user : users) {
+    for (string user : users)
         ratedBooks.emplace(user, zeroVector);
-    }
 
     // return back to the beginning of the file to get ratings
     dataFile.close();
@@ -42,7 +58,13 @@ BookRecommender::BookRecommender(string filename) {
     for (;getline(dataFile, userName);) {
         getline(dataFile, bookTitle);
         getline(dataFile, rating);
-        
+
+        // remove carriage return from imput if it exists
+        userName.erase(remove(userName.begin(), userName.end(), '\r'), 
+            userName.end());
+        bookTitle.erase(remove(bookTitle.begin(), bookTitle.end(), '\r'), 
+            bookTitle.end());
+
         // store ratings for user in temporary vector
         // then update vector to add new rating
         vector<double> updatedRating = ratedBooks[userName];
@@ -57,27 +79,99 @@ BookRecommender::BookRecommender(string filename) {
         ratedBooks[userName] = updatedRating;
     }
 
-    // calculate averages for each book
+    // calculate average for each book and add it to the averages map
     for (string book : books) {
-            int totalRating = 0;
+            int totalRating = 0; // holds the sum of ratings
+            int numRatings = 0; // counts number of non-zero ratings
             for (string user : users) {
-                totalRating += getUserBookRating(user, book);
+                int userRating = getUserBookRating(user, book);
+                if (userRating != 0) {
+                    totalRating += userRating;
+                    numRatings += 1;
+                }
             }
-            double average = totalRating / getUserCount();
+            double average = 0;
+            if (numRatings != 0)
+                average = ((double) totalRating) / numRatings;
             averages.emplace(book, average);
-        }
+    }
 }
 
 // displays the book recommendations for a given user per the 
 // specifications given
-void BookRecommender::printRecommend(string userName) {
+void BookRecommender::printRecommend(string requestedUser) {
+    vector<pair<double, string>> similarityRatings;
+    pair<double, string> similarityPair;
 
+    // ensure name is in the requested user is in the vector
+    if (find(users.begin(), users.end(), requestedUser) == users.end()) {
+        printAverages();
+        return;
+    }
+
+    // populate vector of similarity ratings
+    for (string reccUser : users) {
+        similarityPair = make_pair(getSimilarity(reccUser, requestedUser), 
+            reccUser);
+        similarityRatings.push_back(similarityPair);
+    }
+
+    // sort the vector based on the similarity value
+    sort(similarityRatings.begin(), similarityRatings.end());
+
+    // remove the requested user from the vector (most similar)
+    similarityRatings.pop_back();
+    
+    // creates a vector of pairs with each pair containing the average rating
+    // from the top 3 users and the name of the book
+    vector<pair<double, string>> averagePairs;
+    for (string book : books) {
+        int ratingCount = 0;
+        double totalRating = 0;
+        double averageRating = 0;
+        for (int i=0; i<3; i++) {
+            double userRating = getUserBookRating(similarityRatings[i].second,
+                book);
+            if (userRating != 0)
+                ratingCount++;
+            totalRating += userRating;
+        }
+        if (ratingCount != 0)
+            averageRating = totalRating / ratingCount;
+        
+        averagePairs.push_back(make_pair(averageRating, book));
+    }
+
+    // sort the averagePairs by averageRating
+    sort(averagePairs.begin(), averagePairs.end(), compareAverages);
+
+    // output each book and it's average recommender rating
+    for (pair<double, string> book : averagePairs) {
+        if (book.first > 0)
+            cout << book.second << " " << fixed << setprecision(2) 
+                << book.first << endl;
+    }
 }
 
 // displays the book average ratings per the specifications
 void BookRecommender::printAverages() {
-    for (auto pair : averages) {
-        cout << pair.first << " " << pair.second << endl;
+    vector<pair<double, string>> averageVector;
+    pair<double, string> bookRating;
+
+    // convert the map to a vector of book pairs
+    for (string book : books) {
+        bookRating = make_pair(averages[book], book);
+        averageVector.push_back(bookRating);
+    }
+
+    // sort the vector by rating and then by 
+    sort(averageVector.begin(), averageVector.end(), compareAverages);
+
+    // print the averages in proper formating
+    for (pair<double, string> bookRating : averageVector) {
+        double rating = bookRating.first;
+        string title = bookRating.second;
+        cout << fixed << title << " " << setprecision(2) << rating << endl;
     }
 }
 
@@ -89,8 +183,8 @@ double BookRecommender::getAverage(string bookTitle) {
 
 // returns the similarity value for recommender userName1 compared to userName2
 double BookRecommender::getSimilarity(string userName1, string userName2) {
-    vector<double> user1 = ratedBooks.at(userName1);
-    vector<double> user2 = ratedBooks.at(userName2);
+    vector<double> user1 = ratedBooks[userName1];
+    vector<double> user2 = ratedBooks[userName2];
     double rating = 0;
 
     for (int i=0; i<getBookCount(); i++) {
@@ -110,12 +204,10 @@ int BookRecommender::getUserCount() {
     return (int) users.size();
 }
 
-// FIXME: needs some work
 // gets the users rating of the bookTitle
 double BookRecommender::getUserBookRating(string userName, string bookTitle) {
     vector<double> usersRatings = ratedBooks.at(userName);
     auto iterator = find(books.begin(), books.end(), bookTitle);
     int index = distance(books.begin(), iterator);
-
     return (ratedBooks.at(userName))[index];
 }
